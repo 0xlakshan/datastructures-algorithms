@@ -68,3 +68,75 @@ function findLongestWordLength(str) {
 }
   
 findLongestWordLength("The quick brown fox jumped over the lazy dog");
+
+/**
+ * Return Largest Numbers in Arrays
+ * Return an array consisting of the largest number from each provided sub-array. For simplicity, the provided array will contain exactly 4 sub-arrays.
+ * Remember, you can iterate through an array with a simple for loop, and access each member with array syntax arr[i].
+ * */ 
+function largestOfFour(arr) {
+    let largestNumbers = [];
+    for (let i = 0; i < arr.length; i++) {
+      let innerArray = arr[i];
+      let largestNumberInInnerArray = 0;
+      for (let j = 0; j < innerArray.length; j++) {
+        if (j === 0) {
+          largestNumberInInnerArray = innerArray[j];
+        }
+        if (innerArray[j] > largestNumberInInnerArray) {
+          largestNumberInInnerArray = innerArray[j];
+        }
+      }
+      largestNumbers.push(largestNumberInInnerArray);
+    }
+    console.log(largestNumbers);
+    return largestNumbers;
+  }
+  
+  largestOfFour([[17, 23, 25, 12], [25, 7, 34, 48], [4, -10, 18, 21], [-72, -3, -17, -10]]);
+
+/**
+ * Confirm the Ending
+ * Check if a string (first argument, str) ends with the given target string (second argument, target).
+ * This challenge can be solved with the .endsWith() method, which was introduced in ES2015. But for the purpose of this challenge, we would like you to use one of the JavaScript substring methods instead.
+ * */ 
+function confirmEnding(str, target) {
+    // return str;
+    const strArray = str.split("");
+    const givenArray = target.split("");
+    // console.log(givenArray.length)
+    let counter = 0;
+    let isGivenStrSame = true;
+    for (let i = strArray.length - 1; 0 < i ; i--) {
+  
+      const strLetter = strArray[i];
+      const givenStrLetter = givenArray[givenArray.length - counter - 1];
+  
+      if (strLetter !== givenStrLetter) {
+        isGivenStrSame = false;
+      }
+  
+      if (counter === givenArray.length - 1) {
+        break;
+      }
+      counter++;
+    }
+    console.log(isGivenStrSame);
+    return isGivenStrSame;
+}
+confirmEnding("Bastian hello", "hello");
+
+/**
+ * Repeat a String Repeat a String
+ * Repeat a given string str (first argument) for num times (second argument). Return an empty string if num is not a positive number. For the purpose of this challenge, do not use the built-in .repeat() method.
+ * */ 
+function repeatStringNumTimes(str, num) {
+    const strArray = [];
+    if (num > 0) {
+        for (let i = 0; i < num; i++) {
+            strArray.push(str);
+        }
+    }
+    return strArray.join("");
+}
+repeatStringNumTimes("abc", 3);
