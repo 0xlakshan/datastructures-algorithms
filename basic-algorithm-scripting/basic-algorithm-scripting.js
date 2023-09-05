@@ -160,4 +160,4 @@ function truncateString(str, num) {
   return joinedLetters;
 }
 
-truncateString("A-tisket a-tasket A green and yellow basket", 8);
+truncateString("A-tisket a-tasket A green and yellow basket", 8); 
