@@ -226,3 +226,27 @@ function titleCase(str) {
 }
 
 titleCase("I'm a little tea pot");
+
+/**
+ * Falsy Bouncer
+ * Remove all falsy values from an array. Return a new array; do not mutate the original array.
+ * Falsy values in JavaScript are false, null, 0, "", undefined, and NaN. 
+*/
+
+function bouncer(arr) {
+  // return arr;
+  const filteredArray = [];
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+    if (arr[i]) {
+      filteredArray.push(arr[i]);
+      console.log(true);
+    } else {
+      console.log(false);
+    }
+  }
+  console.log(filteredArray);
+  return filteredArray
+}
+
+bouncer([7, "ate", "", false, 9]);
