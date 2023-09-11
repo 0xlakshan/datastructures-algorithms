@@ -271,3 +271,36 @@ function getIndexToIns(arr, num) {
 }
 
 getIndexToIns([10, 20, 30, 40, 50], 30);
+
+
+/**
+ * Mutations
+ * Return true if the string in the first element of the array contains all of the letters of the string in the second element of the array.
+ * For example, ["hello", "Hello"], should return true because all of the letters in the second string are present in the first, ignoring case.
+ * The arguments ["hello", "hey"] should return false because the string hello does not contain a y.
+ * Lastly, ["Alien", "line"], should return true because all of the letters in line are present in Alien.
+*/
+
+function mutation(arr) {
+  const originalLettersArr = arr[0].split("");
+  const matchingLettersArr = arr[1].split("");
+
+  let isAllLettersMatching = true;
+
+  for (let i = 0; i < matchingLettersArr.length; i++) {
+    let isLetterMatching = false;
+    let currentLetter = matchingLettersArr[i];
+
+    for (let j = 0; j < originalLettersArr.length; j++) {
+      if (originalLettersArr[j].toLowerCase() === currentLetter.toLowerCase()) {
+        isLetterMatching = true;
+      }
+    }
+    if (isLetterMatching === false) {
+      isAllLettersMatching = false;
+    }
+  }
+  return isAllLettersMatching;
+}
+
+mutation(["hello", "hey"]);
