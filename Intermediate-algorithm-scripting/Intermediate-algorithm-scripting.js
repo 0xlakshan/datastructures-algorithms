@@ -27,3 +27,38 @@ function sumAll(arr) {
 }
   
 sumAll([1, 4]);
+
+/**
+ * Diff Two Arrays
+ * Compare two arrays and return a new array with any items only found in one of the two given arrays, but not both. In other words, return the symmetric difference of the two arrays.
+ * Note: You can return the array with its elements in any order.
+*/
+
+function diffArray(arr1, arr2) {
+  const newArr = [];
+  
+  let arrayOne = arr1;
+  let arrayTwo = arr2;
+
+  for (let x = 0; x < 2; x++) {
+    for (let i = 0; i < arrayOne.length; i++) {
+      let isMatchingItemFound = false;
+      for (let j = 0; j < arrayTwo.length; j++) {
+        if (arrayOne[i] === arrayTwo[j]) {
+          isMatchingItemFound = true;
+        }
+      }
+      if (isMatchingItemFound === false) {
+        newArr.push(arrayOne[i]);
+      }
+    }
+    // change the array order
+    arrayOne = arr2;
+    arrayTwo = arr1;
+  }
+
+  return newArr;
+}
+
+
+diffArray(["andesite", "grass", "dirt", "pink wool", "dead shrub" ], ["diorite", "andesite", "grass", "dirt", "dead shrub"]);
