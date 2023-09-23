@@ -62,3 +62,31 @@ function diffArray(arr1, arr2) {
 
 
 diffArray(["andesite", "grass", "dirt", "pink wool", "dead shrub" ], ["diorite", "andesite", "grass", "dirt", "dead shrub"]);
+
+
+/**
+ * Seek and Destroy
+ * You will be provided with an initial array as the first argument to the destroyer function, followed by one or more arguments. Remove all elements from the initial array that are of the same value as these arguments.
+ * The function must accept an indeterminate number of arguments, also known as a variadic function. You can access the additional arguments by adding a rest parameter to the function definition or using the arguments object.
+ * */ 
+
+function destroyer(arr, ...rest) {
+  let newArray = [];
+
+  for (let i = 0; i < arr.length; i++) {
+    let equalItems = false;
+    for (let j = 0; j < rest.length; j++) {
+      if (arr[i] === rest[j]) {
+        equalItems = true;
+      }
+    }
+    if (equalItems === false) {
+      newArray.push(arr[i]);
+    }
+  }
+  
+  return newArray;
+
+}
+
+destroyer([1, 2, 3, 1, 2, 3], 2, 3);
