@@ -90,3 +90,53 @@ function destroyer(arr, ...rest) {
 }
 
 destroyer([1, 2, 3, 1, 2, 3], 2, 3);
+
+
+/**
+ * Spinal Tap Case
+ * Convert a string to spinal case. Spinal case is all-lowercase-words-joined-by-dashes.
+*/
+
+function spinalCase(str) {
+
+  const lettersArr = str.split("");
+
+  const newArr = lettersArr.map((item, index, arr) => {
+    if (item.toUpperCase() !== item.toLowerCase()) {
+      const upperCaseConverted = item.toUpperCase();
+      if (item === upperCaseConverted && index !== 0) {
+        return "-" + item;
+      } else {
+        return item;
+      }
+    } else {
+      return " ";
+    } 
+  });
+
+  const addedDash = newArr.map((item, index, arr) => {
+    if (newArr.length - 1 !== index) {
+      const nextItemArr = newArr[index + 1].split("");
+      if (item === " " && nextItemArr.length !== 2) {
+        return "-";
+      } else {
+        return item;
+      }
+    } else {
+      return item;
+  }
+  });
+
+  const spacesRemoved = addedDash.filter(item => item !== " ");
+  
+  const stringConverted = spacesRemoved.join("");
+  const lowerCaseConverted = stringConverted.toLowerCase();
+  console.log(lowerCaseConverted);
+  return lowerCaseConverted;
+}
+
+spinalCase("This Is Spinal Tap");
+spinalCase("thisIsSpinalTap")
+spinalCase("The_Andy_Griffith_Show")
+spinalCase("Teletubbies say Eh-oh");
+spinalCase("AllThe-small Things")
