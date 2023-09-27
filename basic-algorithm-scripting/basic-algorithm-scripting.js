@@ -332,3 +332,73 @@ function chunkArrayInGroups(arr, size) {
 }
 
 chunkArrayInGroups(["a", "b", "c", "d", "e"], 2);
+
+
+/**
+ * Pig Latin
+ * Pig Latin is a way of altering English Words. The rules are as follows:
+ * - If a word begins with a consonant, take the first consonant or consonant cluster, move it to the end of the word, and add ay to it.
+ * - If a word begins with a vowel, just add way at the end.
+ * Translate the provided string to Pig Latin. Input strings are guaranteed to be English words in all lowercase.
+*/
+
+/*
+notes -
+identify consonant and wovels
+ if consonant mutate the word and update accordingly
+  loop through letters and look for wovel
+    if wovel not found in word add ay at the end and return
+    if wovel found move the cluster to the end and return ay
+ if wovel mutate the word and update accordingly
+*/
+
+function translatePigLatin(str) {
+  const wovels = ['a', 'e', 'i', 'o', 'u'];
+  const wordsArr = str.split("");
+
+  let isWovel = false;
+  let firstWovelPosition = 0;
+  let firstConsonants = [];
+
+  wordsArr.forEach((item, index) => {
+    if (index === 0 && wovels.includes(item)) {
+      isWovel = true;
+    }
+
+    if (wovels.includes(item) && firstWovelPosition === 0) {
+      firstWovelPosition = index;
+    }
+
+    if (wovels.includes(item) === false && firstWovelPosition === 0) {
+      firstConsonants.push(item);
+    }
+  });
+
+  let constructedWord;
+
+  if (isWovel) {
+    wordsArr.push('w', 'a', 'y');
+    constructedWord = wordsArr;
+  } else {
+    if (firstWovelPosition === 0) {
+      wordsArr.push('a', 'y');
+      constructedWord = wordsArr;
+    } else {
+      const newArray = wordsArr.slice(firstWovelPosition, wordsArr.length);
+      firstConsonants.forEach((item) => {
+        newArray.push(item);
+      });
+      newArray.push('a', 'y');
+      constructedWord = newArray;
+    }
+  }
+
+  const stringConverted = constructedWord.join("");
+  return stringConverted;
+}
+
+translatePigLatin("consonant");
+translatePigLatin("rhythm");
+translatePigLatin("schwartz");
+translatePigLatin("california");
+translatePigLatin("algorithm")
