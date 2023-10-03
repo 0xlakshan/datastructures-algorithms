@@ -448,3 +448,45 @@ myReplace("I think we should look up there", "up", "Down");
 myReplace("This has a spellngi error", "spellngi", "spelling")
 myReplace("His name is Tom", "Tom", "john")
 myReplace("Let us get back to more Coding", "Coding", "algorithms")
+
+
+/**
+ * DNA Pairing
+ * Pairs of DNA strands consist of nucleobase pairs. Base pairs are represented by the characters AT and CG, which form building blocks of the DNA double helix.
+ * The DNA strand is missing the pairing element. Write a function to match the missing base pairs for the provided DNA strand. For each character in the provided string, find the base pair character. Return the results as a 2d array.
+ * For example, for the input GCG, return [["G", "C"], ["C","G"], ["G", "C"]]
+ * The character and its pair are paired up in an array, and all the arrays are grouped into one encapsulating array.
+ * */ 
+
+function pairElement(str) {
+  const strArray = str.split("");
+  const dnaStrands = [];
+
+  strArray.forEach((item) => {
+    const strandPair = []
+    switch(item) {
+      case "A":
+        strandPair.push(item, "T");
+        break;
+      case "T":
+        strandPair.push(item, "A");
+        break;
+      case "C":
+        strandPair.push(item, "G");
+        break;
+      case "G":
+        strandPair.push(item, "C");
+        break;
+    }
+
+    dnaStrands.push(strandPair);
+  });
+
+  return dnaStrands;
+
+}
+
+pairElement("GCG");
+pairElement("ATCGA");
+pairElement("TTGAG");
+pairElement("CTCTA");
