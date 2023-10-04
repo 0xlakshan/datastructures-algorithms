@@ -140,3 +140,45 @@ spinalCase("thisIsSpinalTap")
 spinalCase("The_Andy_Griffith_Show")
 spinalCase("Teletubbies say Eh-oh");
 spinalCase("AllThe-small Things")
+
+
+/**
+ * Missing letters
+ * Find the missing letter in the passed letter range and return it.
+ * If all letters are present in the range, return undefined.
+*/
+
+function fearNotLetter(str) {
+  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const alphabetArray = alphabet.split("");
+  const stringArray = str.split("");
+  
+  let continueReturn = false;
+  const trimedLettersFromAlphabet = alphabetArray.filter((item, index) => {    
+    if (stringArray[0] === item) {
+      continueReturn = true;
+    }
+    if (stringArray[stringArray.length - 1] === item) {
+      continueReturn = false;
+      return item;
+    }
+    if (continueReturn) {
+      return item;
+    }
+  });
+
+  let missingLetter;
+
+  for (let i = 0; i < trimedLettersFromAlphabet.length; i++) {
+    if (stringArray[i] !== trimedLettersFromAlphabet[i]) {
+      missingLetter = trimedLettersFromAlphabet[i];
+      break;
+    }
+  }
+  console.log(missingLetter);
+  return missingLetter;
+}
+
+fearNotLetter("abce");
+fearNotLetter("stvwx");
+fearNotLetter("abcdefghijklmnopqrstuvwxyz");
