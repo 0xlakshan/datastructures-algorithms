@@ -182,3 +182,35 @@ function fearNotLetter(str) {
 fearNotLetter("abce");
 fearNotLetter("stvwx");
 fearNotLetter("abcdefghijklmnopqrstuvwxyz");
+
+
+/**
+ * Sorted Union
+ * Write a function that takes two or more arrays and returns a new array of unique values in the order of the original provided arrays.
+ * In other words, all values present from all arrays should be included in their original order, but with no duplicates in the final array.
+ * The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order.
+ * Check the assertion tests for examples.
+ * */
+
+/*
+flattern the multidimentional array
+loop through flattern array and push to new array item will be ignored if it is already exist in the array
+*/ 
+function uniteUnique(...arr) {
+  const flatternedArray = [];
+  arr.forEach(item => {
+    item.forEach(innerItem => {
+      if (flatternedArray.includes(innerItem) === false) {
+        flatternedArray.push(innerItem);
+      }
+    });
+  });
+
+  console.log(flatternedArray);
+  return flatternedArray;
+}
+
+uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
+uniteUnique([1, 2, 3], [5, 2, 1]);
+uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]);
+uniteUnique([1, 3, 2], [5, 4], [5, 6]);
