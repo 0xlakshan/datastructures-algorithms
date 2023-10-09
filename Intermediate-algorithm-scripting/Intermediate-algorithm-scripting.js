@@ -191,7 +191,6 @@ fearNotLetter("abcdefghijklmnopqrstuvwxyz");
  * The unique numbers should be sorted by their original order, but the final array should not be sorted in numerical order.
  * Check the assertion tests for examples.
  * */
-
 /*
 flattern the multidimentional array
 loop through flattern array and push to new array item will be ignored if it is already exist in the array
@@ -214,3 +213,55 @@ uniteUnique([1, 3, 2], [5, 2, 1, 4], [2, 1]);
 uniteUnique([1, 2, 3], [5, 2, 1]);
 uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]);
 uniteUnique([1, 3, 2], [5, 4], [5, 6]);
+
+
+/**
+ * Convert HTML Entities
+ * Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
+ * */
+
+function convertHTML(str) {
+  const mappedEntities = [
+    {
+      character: "&",
+      entity: "&amp;"
+    },
+    {
+      character: "<",
+      entity: "&lt;"
+    },
+    {
+      character: ">",
+      entity: "&gt;"
+    },
+    {
+      character: "\"",
+      entity: "&quot;"
+    },
+    {
+      character: `\'`,
+      entity: "&apos;"
+    }
+  ];
+  const arrayConvertedStr = str.split("");
+  const convertedArray = arrayConvertedStr.map((item) => {
+    let entityObj = null;
+    mappedEntities.forEach((entityObjItem) => {
+      if (item === entityObjItem.character) {
+        entityObj = entityObjItem;
+      }
+    });
+    if (entityObj) {
+      return entityObj.entity;
+    } else {
+      return item;
+    }
+  });
+  const stringConverted = convertedArray.join("");
+  return stringConverted;
+  console.log(stringConverted);
+}
+
+convertHTML("Dolce & Gabbana");
+convertHTML('Stuff in "quotation marks"');
+convertHTML("Schindler's List");
