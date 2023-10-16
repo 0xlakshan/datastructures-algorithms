@@ -303,3 +303,43 @@ sumFibs(1000);
 sumFibs(4000000); 
 sumFibs(4);
 sumFibs(75025);
+
+
+/**
+ * Sum All Primes
+ * A prime number is a whole number greater than 1 with exactly two divisors: 1 and itself. For example, 2 is a prime number because it is only divisible by 1 and 2. In contrast, 4 is not prime since it is divisible by 1, 2 and 4.
+ * Rewrite sumPrimes so it returns the sum of all prime numbers that are less than or equal to num.
+ * */
+
+/*
+loop through numbers from 2 to N
+  check how many times N can be divided as a return value as 0 (start from 0 to N)
+    if N is equal to 2 push it to the prime array
+*/ 
+
+function sumPrimes(num) {
+
+  const primeNumbers = [];
+  let divisorCount = 0;
+
+  for (let i = 2; i <= num; i++) {
+    for (let l = 1; l <= i; l++) {
+      const moduleValue = i % l;
+      if (moduleValue === 0) {
+        divisorCount++;
+      }
+    }
+    if (divisorCount === 2) {
+      primeNumbers.push(i);
+    }
+    divisorCount = 0;
+  }
+
+  let sumOfPrimeNumbers = 0;
+  primeNumbers.forEach(num => sumOfPrimeNumbers += num);
+  
+  console.log(sumOfPrimeNumbers);
+  return sumOfPrimeNumbers;
+}
+
+sumPrimes(10);
