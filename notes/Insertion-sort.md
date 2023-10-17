@@ -29,3 +29,18 @@ for (let i = 1; i < numberList.length; i++) {
 }
 console.log(numberList);
 ```
+
+#### Excercises
+2.1-1
+```
+let sequence = [31, 41, 59, 26, 41, 58];
+for (let i = 1; i < sequence.length; i++) {
+    let currentValue = sequence[i];
+    let j;
+    for (j = i - 1; j >= 0 && sequence[j] > currentValue; j--) {
+        sequence[j + 1] = sequence[j];
+    }
+    sequence[j + 1] = currentValue;
+}
+console.log(sequence);
+```
