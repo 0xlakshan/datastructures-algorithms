@@ -343,3 +343,61 @@ function sumPrimes(num) {
 }
 
 sumPrimes(10);
+
+/**
+Smallest Common Multiple
+
+Find the smallest common multiple of the provided parameters that can be evenly divided by both, as well as by all sequential numbers in the range between these parameters.
+
+The range will be an array of two numbers that will not necessarily be in numerical order.
+
+For example, if given 1 and 3, find the smallest common multiple of both 1 and 3 that is also evenly divisible by all numbers between 1 and 3. The answer here would be 6.
+ 
+*/
+
+function smallestCommons(arr) {
+  // return arr;
+  let startValue = 0;
+  let endValue = 0;
+
+  if (arr[0] < arr[1]) {
+    startValue = arr[0];
+    endValue = arr[1];
+  } else {
+    startValue = arr[1];
+    endValue = arr[0];
+  }
+
+  let numbersBetween = [];
+  for (let i = startValue; i <= endValue; i++) {
+    numbersBetween.push(i);
+  }
+
+  let continueLoop = true
+  let value = 0;
+
+  for (let j = 1; continueLoop === true; j++) {
+
+    // console.log(j);
+
+    let isDivisable = false;
+    for (let k = 0; k < numbersBetween.length; k++) {
+      const answer = numbersBetween[k] % j;
+        // if (answer !== 0) {
+        //   isDivisable = true;
+        // }
+    }
+
+    if (isDivisable === true) {
+      value = j;
+      continueLoop = false;
+    }
+  }
+
+  console.log(value);
+
+
+  // console.log(numbersBetween);
+}
+
+smallestCommons([1,5]);
