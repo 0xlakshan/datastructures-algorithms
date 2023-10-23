@@ -24,4 +24,24 @@ function twoSum(nums: number[], target: number): number[] | undefined {
         }
       }
     }
+}
+
+
+/**
+ * 342. Power of Four
+ * Given an integer n, return true if it is a power of four. Otherwise, return false.
+ * An integer n is a power of four, if there exists an integer x such that n == 4x.
+ * */ 
+
+function isPowerOfFour(n: number): boolean {
+  let powerResult = 0;
+  for (let i = 0; powerResult < n || powerResult === 0; i++) {
+      let currentIterationResult = 4 ** i;
+      powerResult = currentIterationResult;
   }
+  if (powerResult === n) {
+      return true;
+  } else {
+      return false;
+  }
+};
