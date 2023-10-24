@@ -45,3 +45,27 @@ function isPowerOfFour(n: number): boolean {
       return false;
   }
 };
+
+
+/**
+ * 9. Palindrome Number
+ * Given an integer x, return true if x is a palindrome, and false otherwise.
+ * */
+
+function isPalindrome(x: number): boolean {
+  let arrayConverted: string[] = x.toString().split("");
+  let reverseArrayConverted: string[] = [];
+
+  for (let i = arrayConverted.length - 1; i >= 0; i--) {
+      reverseArrayConverted.push(arrayConverted[i]);
+  }
+
+  let originalNumConverted: number = Number(arrayConverted.join(""));
+  let reverseNumConverted: number = Number(reverseArrayConverted.join(""));
+
+  if (originalNumConverted === reverseNumConverted) {
+      return true;
+  } else {
+      return false;
+  }
+};

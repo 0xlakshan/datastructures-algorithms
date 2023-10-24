@@ -1,4 +1,4 @@
-## Insertion sort
+## Insertion sort (4th edition)
 
 A[n] - A array's n index
 A[1:n] - sorting A array's index 1 to n
@@ -91,3 +91,7 @@ In each iteration loop checks whether the current index's value sequence[i] is e
 There are two situations that the loop gets terminated,
 First situation is if loop is able to find the matching index of given X's value it returns the index and also terminates the iteration
 Second situation is if loop iteration reached to the last index it returns "NIL" string inidcating that X's value has not been found
+
+## Insertion sort (3rd edition)
+
+2.1-4
