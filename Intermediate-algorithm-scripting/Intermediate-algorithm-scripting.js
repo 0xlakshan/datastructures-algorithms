@@ -387,3 +387,41 @@ function smallestCommons(arr) {
 }
 
 smallestCommons([1,5]);
+
+/*
+* Longest Consecutive Sequence
+* Given an unsorted array of integers, write a function to find the length of the longest consecutive elements sequence.
+* Your solution must run in O(n) time complexity.
+*/
+
+function longestConsecutive(nums) {
+    if (nums.length === 0) return 0;
+
+    const numSet = new Set(nums);
+    let maxLength = 0;
+
+    for (let num of numSet) {
+        // Check if it's the start of a sequence
+        if (!numSet.has(num - 1)) {
+            let currentNum = num;
+            let currentStreak = 1;
+
+            while (numSet.has(currentNum + 1)) {
+                currentNum++;
+                currentStreak++;
+            }
+
+            maxLength = Math.max(maxLength, currentStreak);
+        }
+    }
+
+    return maxLength;
+}
+
+
+console.log(longestConsecutive([100, 4, 200, 1, 3, 2])); // Output: 4
+console.log(longestConsecutive([0,3,7,2,5,8,4,6,0,1])); // Output: 9
+console.log(longestConsecutive([])); // Output: 0
+console.log(longestConsecutive([1,2,0,1])); // Output: 3
+
+
