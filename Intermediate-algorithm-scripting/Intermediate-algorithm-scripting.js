@@ -425,3 +425,61 @@ console.log(longestConsecutive([])); // Output: 0
 console.log(longestConsecutive([1,2,0,1])); // Output: 3
 
 
+/*
+* Problem: Grid Pathfinding with Obstacles
+* You are given an m x n grid where each cell is either walkable (0) or blocked (1). You start at the top-left corner (0,0) and need to reach the bottom-right corner (m-1, n-1). You can only move right or down.
+* Write a function to determine the shortest path from (0,0) to (m-1,n-1), avoiding obstacles. If no path exists, return -1.
+*/
+function shortestPath(grid) {
+    const m = grid.length;
+    const n = grid[0].length;
+
+    if (grid[0][0] === 1 || grid[m - 1][n - 1] === 1) {
+        return -1; // If start or end is blocked, no path exists
+    }
+
+    const directions = [[0, 1], [1, 0]]; // Right and Down moves only
+    const queue = [[0, 0, 1]]; // [row, col, distance]
+    const visited = new Set();
+    visited.add(`0,0`);
+
+    while (queue.length > 0) {
+        const [r, c, dist] = queue.shift();
+
+        // If we reached the bottom-right corner, return the distance
+        if (r === m - 1 && c === n - 1) {
+            return dist;
+        }
+
+        for (const [dr, dc] of directions) {
+            const nr = r + dr;
+            const nc = c + dc;
+
+            if (nr >= 0 && nr < m && nc >= 0 && nc < n && grid[nr][nc] === 0) {
+                const key = `${nr},${nc}`;
+                if (!visited.has(key)) {
+                    visited.add(key);
+                    queue.push([nr, nc, dist + 1]);
+                }
+            }
+        }
+    }
+
+    return -1; // No path found
+}
+
+// Example test cases
+const grid1 = [
+    [0, 0, 0],
+    [1, 1, 0],
+    [0, 0, 0]
+];
+console.log(shortestPath(grid1)); // Output: 4
+
+const grid2 = [
+    [0, 1],
+    [1, 0]
+];
+console.log(shortestPath(grid2)); // Output: -1
+
+
