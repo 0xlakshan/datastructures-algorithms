@@ -483,3 +483,31 @@ const grid2 = [
 console.log(shortestPath(grid2)); // Output: -1
 
 
+
+/*
+Problem: Find the First Non-Repeating Character in a String
+Given a string s, find the first non-repeating character in it and return its index. If it doesn’t exist, return -1.
+*/
+
+function firstUniqChar(s) {
+  const charCount = {};
+
+  // Count the frequency of each character
+  for (let char of s) {
+    charCount[char] = (charCount[char] || 0) + 1;
+  }
+
+  // Find the first character with count 1
+  for (let i = 0; i < s.length; i++) {
+    if (charCount[s[i]] === 1) {
+      return i;
+    }
+  }
+
+  return -1;
+}
+
+// Test cases
+console.log(firstUniqChar("leetcode"));      // Output: 0
+console.log(firstUniqChar("loveleetcode"));  // Output: 2
+console.log(firstUniqChar("aabb"));          // Output: -1
