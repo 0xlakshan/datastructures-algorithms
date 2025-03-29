@@ -511,3 +511,46 @@ function firstUniqChar(s) {
 console.log(firstUniqChar("leetcode"));      // Output: 0
 console.log(firstUniqChar("loveleetcode"));  // Output: 2
 console.log(firstUniqChar("aabb"));          // Output: -1
+
+
+
+/*
+Question: Contiguous Subarray Sum Equals K
+Problem: Given an array of integers nums and an integer k, return the total number of continuous subarrays whose sum equals to k.
+This one is harder than "Two Sum" because it asks for count of subarrays, not just one pair.
+
+Approach:
+Use prefix sums and a hash map.
+Keep track of the sum of elements up to the current index.
+For each new sum, check if currentSum - k has been seen before.
+If it has, add how many times it occurred to the result.
+Store the frequency of each prefix sum in the map.
+*/
+
+function subarraySum(nums, k) {
+  const prefixMap = new Map();
+  prefixMap.set(0, 1); // For subarrays starting from index 0
+
+  let currentSum = 0;
+  let count = 0;
+
+  for (let num of nums) {
+    currentSum += num;
+
+    if (prefixMap.has(currentSum - k)) {
+      count += prefixMap.get(currentSum - k);
+    }
+
+    prefixMap.set(currentSum, (prefixMap.get(currentSum) || 0) + 1);
+  }
+
+  return count;
+}
+
+// Example usage
+const nums = [1, 2, 3];
+const k = 3;
+console.log(subarraySum(nums, k)); // Output: 2
+
+
+
