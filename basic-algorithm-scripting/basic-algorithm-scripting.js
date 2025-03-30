@@ -508,3 +508,34 @@ function twoSum(nums, target) {
     }
     return [];
 }
+
+
+
+/*
+Find the First Non-Repeating Element
+Given an array of integers, find and return the first element that does not repeat. If all elements repeat, return null.
+*/
+
+function firstNonRepeating(arr) {
+  const countMap = new Map();
+
+  // First pass: count occurrences
+  for (let num of arr) {
+    countMap.set(num, (countMap.get(num) || 0) + 1);
+  }
+
+  // Second pass: find the first with count = 1
+  for (let num of arr) {
+    if (countMap.get(num) === 1) {
+      return num;
+    }
+  }
+
+  return null; // All elements repeat
+}
+
+// Test cases
+console.log(firstNonRepeating([4, 5, 1, 2, 0, 4])); // 5
+console.log(firstNonRepeating([1, 2, 2, 1]));       // null
+console.log(firstNonRepeating([7]));                // 7
+
