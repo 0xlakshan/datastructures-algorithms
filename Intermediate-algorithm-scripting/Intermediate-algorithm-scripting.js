@@ -554,3 +554,69 @@ console.log(subarraySum(nums, k)); // Output: 2
 
 
 
+/*
+Reasoned about intermediate coding algorithm for 4 seconds
+Below is an example of an intermediate-level algorithm—the Quickselect algorithm—to find the kth smallest element in an unsorted array. Quickselect is related to Quicksort but only recurses into one partition. It has an average-case linear time complexity, making it a neat algorithm to study.
+
+Explanation
+Partitioning:
+Choose a pivot (commonly the last element). Rearrange the array so that elements less than the pivot are to its left, and those greater are to its right.
+
+Recursive selection:
+After partitioning, check the pivot’s index:
+If it equals k - 1 (for kth smallest, since array indices start at 0), return the pivot.
+If it’s greater, recursively search in the left subarray.
+If it’s smaller, recursively search in the right subarray, adjusting the kth value accordingly.
+*/
+
+function quickselect(arr, k) {
+  // Helper function to swap elements in the array
+  function swap(i, j) {
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  
+  // Partition function: partitions the array between left and right indices
+  function partition(left, right) {
+    let pivot = arr[right];  // choose the last element as the pivot
+    let partitionIndex = left;
+    
+    for (let i = left; i < right; i++) {
+      if (arr[i] < pivot) {
+        swap(i, partitionIndex);
+        partitionIndex++;
+      }
+    }
+    swap(partitionIndex, right);
+    return partitionIndex;
+  }
+  
+  // Recursive helper for quickselect
+  function select(left, right, kSmallest) {
+    if (left === right) {
+      return arr[left];
+    }
+    
+    let pivotIndex = partition(left, right);
+    
+    if (kSmallest === pivotIndex) {
+      return arr[kSmallest];
+    } else if (kSmallest < pivotIndex) {
+      return select(left, pivotIndex - 1, kSmallest);
+    } else {
+      return select(pivotIndex + 1, right, kSmallest);
+    }
+  }
+  
+  // Check for valid k (1-indexed: k = 1 means smallest)
+  if (k < 1 || k > arr.length) {
+    throw new Error("k is out of bounds");
+  }
+  
+  // We convert kth smallest (1-indexed) to 0-indexed
+  return select(0, arr.length - 1, k - 1);
+}
+
+// Example usage:
+const arr = [7, 10, 4, 3, 20, 15];
+const k = 3;
+console.log(`The ${k}rd smallest element is:`, quickselect(arr, k));  // 7
