@@ -539,3 +539,29 @@ console.log(firstNonRepeating([4, 5, 1, 2, 0, 4])); // 5
 console.log(firstNonRepeating([1, 2, 2, 1]));       // null
 console.log(firstNonRepeating([7]));                // 7
 
+
+
+/*
+Given a string, find the length of the longest substring without repeating characters.
+Input: "abcabcbb"
+Output: 3
+*/
+
+function lengthOfLongestSubstring(s) {
+  let set = new Set();
+  let left = 0;
+  let maxLength = 0;
+
+  for (let right = 0; right < s.length; right++) {
+    while (set.has(s[right])) {
+      set.delete(s[left]);
+      left++;
+    }
+    set.add(s[right]);
+    maxLength = Math.max(maxLength, right - left + 1);
+  }
+
+  return maxLength;
+}
+
+console.log(lengthOfLongestSubstring("abcabcbb")); // 3
