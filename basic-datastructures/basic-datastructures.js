@@ -76,3 +76,36 @@ const users = {
   }
   
   console.log(countOnline(users));
+
+/*
+Question: Find Symmetric Difference of Two Arrays Using Sets
+Given two arrays A and B, write a function to return the symmetric difference of the sets formed by these arrays.
+The symmetric difference of two sets is the set of elements that are in either of the sets but not in both.
+Example
+A = [1, 2, 3, 4];
+B = [3, 4, 5, 6];
+Output: [1, 2, 5, 6]
+*/
+function symmetricDifference(A, B) {
+  const setA = new Set(A);
+  const setB = new Set(B);
+  const result = [];
+
+  for (const item of setA) {
+    if (!setB.has(item)) {
+      result.push(item);
+    }
+  }
+
+  for (const item of setB) {
+    if (!setA.has(item)) {
+      result.push(item);
+    }
+  }
+  return result;
+}
+
+const A = [1, 2, 3, 4];
+const B = [3, 4, 5, 6];
+console.log(symmetricDifference(A, B));
+
