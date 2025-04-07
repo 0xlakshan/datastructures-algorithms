@@ -141,6 +141,38 @@ spinalCase("The_Andy_Griffith_Show")
 spinalCase("Teletubbies say Eh-oh");
 spinalCase("AllThe-small Things")
 
+/*
+Given an array of strings strs, group the anagrams together.
+You can return the answer in any order.
+Example:
+js
+Copy
+Edit
+Input: strs = ["eat","tea","tan","ate","nat","bat"]
+Output: [["eat","tea","ate"],["tan","nat"],["bat"]]
+*/
+function groupAnagrams(strs) {
+  const map = {};
+
+  for (let str of strs) {
+    const key = str.split('').sort().join('');
+
+    if (!map[key]) {
+      map[key] = [];
+    }
+
+    map[key].push(str);
+  }
+
+  return Object.values(map);
+}
+
+
+const input = ["eat", "tea", "tan", "ate", "nat", "bat"];
+console.log(groupAnagrams(input));
+
+
+
 
 /**
  * Missing letters
