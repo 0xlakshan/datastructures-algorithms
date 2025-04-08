@@ -247,6 +247,60 @@ uniteUnique([1, 2, 3], [5, 2, 1, 4], [2, 1], [6, 7, 8]);
 uniteUnique([1, 3, 2], [5, 4], [5, 6]);
 
 
+/*
+Minimum Number of Swaps to Make a Binary String Alternate
+Given a binary string (only contains 0s and 1s), return the minimum number of swaps needed to make the string alternate (i.e., no two adjacent characters are the same). If it's not possible, return -1.
+A swap means choosing any two indices and swapping their characters.
+Input: "111000"
+Output: 1
+Explanation: Swap index 1 and 4 → "101010" (alternating)
+
+Input: "010"
+Output: 0
+Explanation: Already alternating
+
+Input: "110"
+Output: -1
+Explanation: Impossible to alternate this string
+
+*/
+
+function minSwapsToAlternate(s) {
+  const n = s.length;
+  let count0 = 0, count1 = 0;
+
+  // Count how many 0s and 1s
+  for (let char of s) {
+    if (char === '0') count0++;
+    else count1++;
+  }
+
+  if (Math.abs(count0 - count1) > 1) return -1;
+
+  function countMismatches(startChar) {
+    let mismatches = 0;
+    for (let i = 0; i < n; i++) {
+      if (s[i] !== (i % 2 === 0 ? startChar : (startChar === '0' ? '1' : '0')))
+        mismatches++;
+    }
+    return mismatches / 2;
+  }
+
+  if (count0 === count1) {
+    return Math.min(countMismatches('0'), countMismatches('1'));
+  } else if (count0 > count1) {
+    return countMismatches('0');
+  } else {
+    return countMismatches('1');
+  }
+}
+
+console.log(minSwapsToAlternate("111000"));
+console.log(minSwapsToAlternate("010")); 
+console.log(minSwapsToAlternate("110"));
+
+
+
 /**
  * Convert HTML Entities
  * Convert the characters &, <, >, " (double quote), and ' (apostrophe), in a string to their corresponding HTML entities.
