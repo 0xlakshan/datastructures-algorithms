@@ -656,14 +656,12 @@ If it’s smaller, recursively search in the right subarray, adjusting the kth v
 */
 
 function quickselect(arr, k) {
-  // Helper function to swap elements in the array
   function swap(i, j) {
     [arr[i], arr[j]] = [arr[j], arr[i]];
   }
   
-  // Partition function: partitions the array between left and right indices
   function partition(left, right) {
-    let pivot = arr[right];  // choose the last element as the pivot
+    let pivot = arr[right];
     let partitionIndex = left;
     
     for (let i = left; i < right; i++) {
@@ -676,7 +674,6 @@ function quickselect(arr, k) {
     return partitionIndex;
   }
   
-  // Recursive helper for quickselect
   function select(left, right, kSmallest) {
     if (left === right) {
       return arr[left];
@@ -693,16 +690,37 @@ function quickselect(arr, k) {
     }
   }
   
-  // Check for valid k (1-indexed: k = 1 means smallest)
   if (k < 1 || k > arr.length) {
     throw new Error("k is out of bounds");
   }
   
-  // We convert kth smallest (1-indexed) to 0-indexed
   return select(0, arr.length - 1, k - 1);
 }
 
-// Example usage:
 const arr = [7, 10, 4, 3, 20, 15];
 const k = 3;
-console.log(`The ${k}rd smallest element is:`, quickselect(arr, k));  // 7
+console.log(`The ${k}rd smallest element is:`, quickselect(arr, k));
+
+/*
+Given an array of integers nums and an integer k, return the total number of continuous subarrays whose sum equals to k.
+Ex -
+Input: nums = [1,1,1], k = 2
+Output: 2
+----
+Subarrays are: [1,1] (index 0 to 1), [1,1] (index 1 to 2)
+*/
+
+function subarraySum(nums, k) {
+    const map = new Map();
+    map.set(0, 1);
+    let count = 0;
+    let sum = 0;
+    for (let num of nums) {
+        sum += num;
+        if (map.has(sum - k)) {
+            count += map.get(sum - k);
+        }
+        map.set(sum, (map.get(sum) || 0) + 1);
+    }
+    return count;
+}
