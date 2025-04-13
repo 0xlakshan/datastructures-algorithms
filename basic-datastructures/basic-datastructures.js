@@ -109,3 +109,31 @@ const A = [1, 2, 3, 4];
 const B = [3, 4, 5, 6];
 console.log(symmetricDifference(A, B));
 
+/*
+Find the Missing Variable in a Linear Equation
+Given a linear equation of the form:
+ax + b = c
+Find the value of x.
+
+Example:
+Input:
+a = 4, b = 7, c = 27
+Equation - 4x + 7 = 27
+Output should be - x = 5
+*/
+
+function findX(a, b, c) {
+    if (a === 0) {
+        throw new Error("Invalid equation. 'a' cannot be 0.");
+    }
+    return (c - b) / a;
+}
+
+const a = 4;
+const b = 7;
+const c = 27;
+
+const x = findX(a, b, c);
+console.log(`The value of x is: ${x}`);
+
+
