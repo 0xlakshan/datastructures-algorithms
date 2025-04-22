@@ -641,6 +641,44 @@ console.log(subarraySum(nums, k)); // Output: 2
 
 
 /*
+Find All Anagrams in a String
+Given a string s and a non-empty string p, find all the start indices of p's anagrams in s.
+The strings consist of lowercase English letters only.
+The order of output does not matter.
+*/
+function findAnagrams(s, p) {
+    const result = [];
+    const pCount = new Array(26).fill(0);
+    const sCount = new Array(26).fill(0);
+    const aCharCode = 'a'.charCodeAt(0);
+    for (let char of p) {
+        pCount[char.charCodeAt(0) - aCharCode]++;
+    }
+    let windowSize = p.length;
+    for (let i = 0; i < s.length; i++) {
+        sCount[s.charCodeAt(i) - aCharCode]++;
+        if (i >= windowSize) {
+            sCount[s.charCodeAt(i - windowSize) - aCharCode]--;
+        }
+        if (i >= windowSize - 1 && arraysEqual(sCount, pCount)) {
+            result.push(i - windowSize + 1);
+        }
+    }
+    return result;
+}
+
+function arraysEqual(a, b) {
+    for (let i = 0; i < 26; i++) {
+        if (a[i] !== b[i]) return false;
+    }
+    return true;
+}
+
+console.log(findAnagrams("cbaebabacd", "abc"));
+
+
+
+/*
 Reasoned about intermediate coding algorithm for 4 seconds
 Below is an example of an intermediate-level algorithm—the Quickselect algorithm—to find the kth smallest element in an unsorted array. Quickselect is related to Quicksort but only recurses into one partition. It has an average-case linear time complexity, making it a neat algorithm to study.
 
