@@ -569,7 +569,7 @@ console.log(lengthOfLongestSubstring("abcabcbb")); // 3
 
 /*
 Given a positive integer n, find the sum of all its divisors (excluding n itself).
-🧠 Example:
+ex:
 If n = 12, the divisors of 12 (excluding 12) are: 1, 2, 3, 4, 6.
 The sum is: 1 + 2 + 3 + 4 + 6 = 16
 */
@@ -583,7 +583,24 @@ function sumOfDivisors(n) {
     }
     return total;
 }
-
 console.log(sumOfDivisors(12));
 
+/*
+Find the First Non-Repeating Character in a String
+*/
+function firstNonRepeatingChar(str) {
+    const charCount = {};
+    for (let char of str) {
+        charCount[char] = (charCount[char] || 0) + 1;
+    }
+    for (let char of str) {
+        if (charCount[char] === 1) {
+            return char;
+        }
+    }
+    return null;
+}
+
+console.log(firstNonRepeatingChar("aabccbd"));
+console.log(firstNonRepeatingChar("aabbcc"));
 
