@@ -568,6 +568,33 @@ console.log(lengthOfLongestSubstring("abcabcbb")); // 3
 
 
 /*
+Find the number of subarrays where all elements are distinct.
+Example:
+Input: nums = [1, 2, 3]
+Output: 6
+Explanation:
+All subarrays: [1], [1,2], [1,2,3], [2], [2,3], [3] — all have distinct elements - 6 subarrays.
+*/
+function countDistinctSubarrays(nums) {
+    let n = nums.length;
+    let set = new Set();
+    let left = 0;
+    let count = 0;
+    for (let right = 0; right < n; right++) {
+        while (set.has(nums[right])) {
+            set.delete(nums[left]);
+            left++;
+        }
+        set.add(nums[right]);
+        count += (right - left + 1);
+    }
+    return count;
+}
+console.log(countDistinctSubarrays([1, 2, 3])); // Output: 6
+
+
+
+/*
 Given a positive integer n, find the sum of all its divisors (excluding n itself).
 ex:
 If n = 12, the divisors of 12 (excluding 12) are: 1, 2, 3, 4, 6.
