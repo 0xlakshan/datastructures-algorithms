@@ -171,7 +171,28 @@ function groupAnagrams(strs) {
 const input = ["eat", "tea", "tan", "ate", "nat", "bat"];
 console.log(groupAnagrams(input));
 
-
+/*
+Algorithm – Longest Increasing Subsequence (O (n log n) “patience-sorting” approach)
+Maintain an array tails, where tails[k] is the smallest possible tail value of any increasing subsequence of length k + 1.
+Iterate through each number x in the input:
+Binary-search tails to find the first element ≥ x (lower-bound).
+If such an element exists, replace it with x; otherwise push x to extend the array.
+After processing all numbers, the length of tails equals the LIS length; tails itself is not the actual subsequence but encodes it. (Full reconstruction needs a parent-pointer array, omitted for brevity.)
+*/
+function lengthOfLIS(nums) {
+  const tails = [];
+  for (const x of nums) {
+    let lo = 0, hi = tails.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      if (tails[mid] < x) lo = mid + 1;
+      else hi = mid;
+    }
+    tails[lo] = x;
+  }
+  return tails.length;
+}
+console.log(lengthOfLIS([10,9,2,5,3,7,101,18]));
 
 
 /**
