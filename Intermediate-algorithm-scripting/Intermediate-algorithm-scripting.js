@@ -196,6 +196,39 @@ console.log(lengthOfLIS([10,9,2,5,3,7,101,18]));
 
 
 /**
+  * Given a binary tree, return the values of its nodes in pre-order traversal (root, left, right). 
+  * Implement the function preorderTraversal(root).
+*/
+
+class TreeNode {
+  constructor(val, left = null, right = null) {
+    this.val = val;
+    this.left = left;
+    this.right = right;
+  }
+}
+
+function preorderTraversal(root) {
+  const result = [];
+  function traverse(node) {
+    if (!node) return;
+    result.push(node.val);
+    traverse(node.left);
+    traverse(node.right);  
+  }
+  traverse(root);
+  return result;
+}
+const tree =
+  new TreeNode(1,
+    new TreeNode(2),
+    new TreeNode(3,
+      new TreeNode(4)));
+
+console.log(preorderTraversal(tree));
+
+
+/**
  * Missing letters
  * Find the missing letter in the passed letter range and return it.
  * If all letters are present in the range, return undefined.
