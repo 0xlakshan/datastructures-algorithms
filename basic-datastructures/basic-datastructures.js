@@ -13,6 +13,26 @@ function quickCheck(arr, elem) {
 console.log(quickCheck(['squash', 'onions', 'shallots'], 'mushrooms'));
 
 
+/*
+Given a string s, return the index of the first non-repeating character in it. If it doesn't exist, return -1.
+*/
+function firstUniqChar(s) {
+  const charCount = {};
+  for (let char of s) {
+    charCount[char] = (charCount[char] || 0) + 1;
+  }
+  for (let i = 0; i < s.length; i++) {
+    if (charCount[s[i]] === 1) {
+      return i;
+    }
+  }
+  return -1;
+}
+console.log(firstUniqChar("leetcode"));
+console.log(firstUniqChar("loveleetcode"));
+console.log(firstUniqChar("aabb")); 
+
+
 /**
  * Iterate Through All an Array's Items Using For Loops - 
  * We have defined a function, filteredArray, which takes arr, a nested array, and elem as arguments, and returns a new array. elem represents an element that may or may not be present on one or more of the arrays nested within arr. Modify the function, using a for loop, to return a filtered version of the passed array such that any array nested within arr containing elem has been removed. 
