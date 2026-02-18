@@ -1,0 +1,68 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require "optparse"
+require "json"
+require_relative "../lib/core/dataset_loader"
+require_relative "../lib/core/benchmark_runner"
+require_relative "../lib/core/algorithm_registry"
+
+class BenchmarkCLI
+  def initialize
+    @algorithm = nil
+    @file = nil
+    @target = nil
+  end
+
+  def parse
+    parser = OptionParser.new do |opts|
+      opts.banner = "Usage: #{$0} --algorithm <name> --file <path> [--target <value>]"
+
+      opts.on("--algorithm NAME", "Algorithm to run (required)") do |name|
+        @algorithm = name
+      end
+
+      opts.on("--file PATH", "Path to JSON dataset (required)") do |path|
+        @file = path
+      end
+
+      opts.on("--target VALUE", "Target value for search algorithms") do |value|
+        @target = value
+      end
+
+      opts.on("-h", "--help", "Show this help") do
+        puts opts
+        puts "\nAvailable algorithms:"
+        AlgorithmRegistry.list.each { |a| puts "  - #{a}" }
+        exit
+      end
+    end
+    parser.parse!
+
+    raise "Missing --algorithm" unless @algorithm
+    raise "Missing --file" unless @file
+    raise "Unknown algorithm: #{@algorithm}" unless AlgorithmRegistry.exists?(@algorithm)
+
+    self
+  end
+
+  def run
+    data = DatasetLoader.load(@file)
+    algo = AlgorithmRegistry.get(@algorithm)
+    args = @target ? [@target.to_i] : []
+
+    result = BenchmarkRunner.run(algo, data, *args)
+
+    output = {
+      algorithm: @algorithm,
+      dataset_size: data.length,
+      result: result[:result],
+      time_seconds: result[:time],
+      memory_mb: result[:memory]
+    }
+
+    puts JSON.pretty_generate(output)
+  end
+end
+
+BenchmarkCLI.new.parse.run
