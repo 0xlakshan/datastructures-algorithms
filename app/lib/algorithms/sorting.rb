@@ -42,4 +42,62 @@ module Sorting
     end
     arr
   end
+
+  def insertion_sort(arr)
+    arr = arr.dup
+    (1...arr.length).each do |i|
+      key = arr[i]
+      j = i - 1
+      while j >= 0 && arr[j] > key
+        arr[j + 1] = arr[j]
+        j -= 1
+      end
+      arr[j + 1] = key
+    end
+    arr
+  end
+
+  def heap_sort(arr)
+    arr = arr.dup
+    n = arr.length
+
+    (n / 2 - 1).downto(0) { |i| heapify(arr, n, i) }
+
+    (n - 1).downto(1) do |i|
+      arr[0], arr[i] = arr[i], arr[0]
+      heapify(arr, i, 0)
+    end
+    arr
+  end
+
+  def heapify(arr, n, i)
+    largest = i
+    left = 2 * i + 1
+    right = 2 * i + 2
+
+    largest = left if left < n && arr[left] > arr[largest]
+    largest = right if right < n && arr[right] > arr[largest]
+
+    if largest != i
+      arr[i], arr[largest] = arr[largest], arr[i]
+      heapify(arr, n, largest)
+    end
+  end
+
+  def radix_sort(arr)
+    return arr if arr.empty?
+    max = arr.max
+    exp = 1
+    output = arr.dup
+
+    while max / exp > 0
+      buckets = Array.new(10) { [] }
+      output.each do |num|
+        buckets[(num / exp) % 10] << num
+      end
+      output = buckets.flatten
+      exp *= 10
+    end
+    output
+  end
 end
