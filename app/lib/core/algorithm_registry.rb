@@ -8,8 +8,13 @@ module AlgorithmRegistry
     "quick_sort" => Sorting.method(:quick_sort),
     "merge_sort" => Sorting.method(:merge_sort),
     "bubble_sort" => Sorting.method(:bubble_sort),
+    "insertion_sort" => Sorting.method(:insertion_sort),
+    "heap_sort" => Sorting.method(:heap_sort),
+    "radix_sort" => Sorting.method(:radix_sort),
     "linear_search" => Searching.method(:linear_search),
-    "binary_search" => Searching.method(:binary_search)
+    "binary_search" => Searching.method(:binary_search),
+    "ternary_search" => Searching.method(:ternary_search),
+    "exponential_search" => Searching.method(:exponential_search)
   }.freeze
 
   module_function
