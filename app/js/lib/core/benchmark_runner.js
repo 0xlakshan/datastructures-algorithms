@@ -9,15 +9,15 @@ function runBenchmark(algorithmName, data, target = null) {
 
   const timeSeconds = Number(endTime - startTime) / 1e9;
 
-  const resultObj = {
+  const output = {
     algorithm: algorithmName,
     dataset_size: data.length,
     result: result,
     time_seconds: timeSeconds
   };
 
-  console.log(JSON.stringify(resultObj, null, 2));
-  return resultObj;
+  console.log(JSON.stringify(output));
+  return output;
 }
 
 module.exports = { runBenchmark };
