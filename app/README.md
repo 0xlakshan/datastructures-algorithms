@@ -1,18 +1,19 @@
 # Algorithm Benchmark CLI (Ruby & JavaScript)
 
-Benchmark sorting and searching algorithms against JSON datasets and measure execution time.
+Benchmark sorting and searching algorithms against JSON datasets and measure execution time. Compare Ruby vs JavaScript implementations.
 
 ## Project Structure
 
 ```
 app/
 ├── bin/
-│   └── benchmark          # Ruby CLI executable
+│   └── benchmark          # Main CLI (Ruby)
 ├── js/
-│   └── bin/
-│       └── benchmark.js   # JavaScript CLI executable
+│   └── lib/
+│       ├── algorithms/    # JavaScript implementations
+│       └── core/          # JS core modules
 ├── lib/
-│   ├── algorithms/
+│   ├── algorithms/        # Ruby implementations
 │   │   ├── sorting.rb     # 6 sorting algorithms
 │   │   └── searching.rb   # 4 searching algorithms
 │   └── core/
@@ -44,36 +45,57 @@ app/
 - `ternary_search` - O(log₃ n)
 - `exponential_search` - O(log n)
 
-## Usage (Ruby)
+## Main CLI Usage (Ruby)
 
 ```bash
-# Sorting
+# Ruby implementation (default)
 ./bin/benchmark --algorithm quick_sort --file data/sample.json
 ./bin/benchmark --algorithm heap_sort --file data/large.json
 
-# Searching (require --target)
+# JavaScript implementation
+./bin/benchmark --algorithm quick_sort --file data/sample.json --js
+
+# Compare Ruby vs JavaScript
+./bin/benchmark --algorithm quick_sort --file data/sample.json --compare
+./bin/benchmark --algorithm merge_sort --file data/large.json --compare
+
+# Searching (requires --target)
 ./bin/benchmark --algorithm binary_search --file data/sample.json --target 45
-./bin/benchmark --algorithm ternary_search --file data/sample.json --target 45
+./bin/benchmark --algorithm binary_search --file data/sample.json --target 45 --compare
 ```
 
-## Usage (JavaScript)
+## Options
 
-```bash
-# Sorting
-node js/bin/benchmark.js --algorithm quick_sort --file data/sample.json
-node js/bin/benchmark.js --algorithm heap_sort --file data/large.json
+| Flag | Description |
+|------|-------------|
+| `--algorithm NAME` | Algorithm to run (required) |
+| `--file PATH` | Path to JSON dataset (required) |
+| `--target VALUE` | Target value for search algorithms |
+| `--js` | Run JavaScript implementation |
+| `--compare` | Run both Ruby and JS, show comparison |
 
-# Searching
-node js/bin/benchmark.js --algorithm binary_search --file data/sample.json --target 45
-```
+## Output Format
 
-## Output Format (JSON)
-
+**Single implementation:**
 ```json
 {
+  "language": "ruby",
   "algorithm": "quick_sort",
   "dataset_size": 15,
   "result": [7, 11, 12, 19, 22, 23, 25, 34, 41, 45, 56, 64, 78, 88, 90],
-  "time_seconds": 0.000031862989999353886
+  "time_seconds": 0.000023,
+  "memory_mb": 0.0
+}
+```
+
+**Comparison (`--compare`):**
+```json
+{
+  "ruby": { "language": "ruby", "algorithm": "quick_sort", "time_seconds": 0.000023, ... },
+  "js": { "algorithm": "quick_sort", "time_seconds": 0.000072, ... },
+  "comparison": {
+    "time_ratio": 3.07,
+    "faster": "ruby"
+  }
 }
 ```
