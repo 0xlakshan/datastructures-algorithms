@@ -3,6 +3,7 @@
 
 require "optparse"
 require "json"
+require "open3"
 require_relative "../lib/core/dataset_loader"
 require_relative "../lib/core/benchmark_runner"
 require_relative "../lib/core/algorithm_registry"
@@ -12,11 +13,13 @@ class BenchmarkCLI
     @algorithm = nil
     @file = nil
     @target = nil
+    @js = false
+    @compare = false
   end
 
   def parse
     parser = OptionParser.new do |opts|
-      opts.banner = "Usage: #{$0} --algorithm <name> --file <path> [--target <value>]"
+      opts.banner = "Usage: #{$0} --algorithm <name> --file <path> [--target <value>] [--js] [--compare]"
 
       opts.on("--algorithm NAME", "Algorithm to run (required)") do |name|
         @algorithm = name
@@ -30,10 +33,21 @@ class BenchmarkCLI
         @target = value
       end
 
+      opts.on("--js", "Run JavaScript implementation") do
+        @js = true
+      end
+
+      opts.on("--compare", "Compare Ruby vs JavaScript implementations") do
+        @compare = true
+      end
+
       opts.on("-h", "--help", "Show this help") do
         puts opts
         puts "\nAvailable algorithms:"
         AlgorithmRegistry.list.each { |a| puts "  - #{a}" }
+        puts "\nFlags:"
+        puts "  --js       Run JavaScript implementation"
+        puts "  --compare  Run both Ruby and JS, show comparison"
         exit
       end
     end
@@ -46,22 +60,68 @@ class BenchmarkCLI
     self
   end
 
-  def run
+  def run_ruby
     data = DatasetLoader.load(@file)
     algo = AlgorithmRegistry.get(@algorithm)
     args = @target ? [@target.to_i] : []
 
     result = BenchmarkRunner.run(algo, data, *args)
 
-    output = {
+    {
+      language: "ruby",
       algorithm: @algorithm,
       dataset_size: data.length,
       result: result[:result],
       time_seconds: result[:time],
       memory_mb: result[:memory]
     }
+  end
 
-    puts JSON.pretty_generate(output)
+  def run_js
+    data = DatasetLoader.load(@file)
+    json_data = JSON.generate(data)
+    is_searching = @algorithm.include?("search")
+
+    if is_searching
+      cmd = "node -e \""
+      cmd += "const { #{@algorithm} } = require('./js/lib/algorithms/searching');"
+      cmd += "const { runBenchmark } = require('./js/lib/core/benchmark_runner');"
+      cmd += "const data = #{json_data};"
+      cmd += "runBenchmark('#{@algorithm}', data, #{@target});"
+      cmd += "\""
+    else
+      cmd = "node -e \""
+      cmd += "const { #{@algorithm} } = require('./js/lib/algorithms/sorting');"
+      cmd += "const { runBenchmark } = require('./js/lib/core/benchmark_runner');"
+      cmd += "const data = #{json_data};"
+      cmd += "runBenchmark('#{@algorithm}', data);"
+      cmd += "\""
+    end
+
+    stdout, stderr, status = Open3.capture3(cmd)
+    raise "JS Error: #{stderr}" unless status.success?
+    JSON.parse(stdout)
+  end
+
+  def run
+    if @compare
+      ruby_result = run_ruby
+      js_result = run_js
+
+      comparison = {
+        ruby: ruby_result,
+        js: js_result,
+        comparison: {
+          time_ratio: js_result["time_seconds"] / ruby_result[:time_seconds],
+          faster: js_result["time_seconds"] < ruby_result[:time_seconds] ? "js" : "ruby"
+        }
+      }
+      puts JSON.pretty_generate(comparison)
+    elsif @js
+      puts JSON.pretty_generate(run_js)
+    else
+      puts JSON.pretty_generate(run_ruby)
+    end
   end
 end
 
