@@ -2,6 +2,9 @@
 
 require_relative "../algorithms/sorting"
 require_relative "../algorithms/searching"
+require_relative "../algorithms/k_means"
+require_relative "../algorithms/simulated_annealing"
+require_relative "../algorithms/genetic_algorithm"
 
 module AlgorithmRegistry
   ALGORITHMS = {
@@ -14,7 +17,10 @@ module AlgorithmRegistry
     "linear_search" => Searching.method(:linear_search),
     "binary_search" => Searching.method(:binary_search),
     "ternary_search" => Searching.method(:ternary_search),
-    "exponential_search" => Searching.method(:exponential_search)
+    "exponential_search" => Searching.method(:exponential_search),
+    "k_means" => KMeans.method(:k_means),
+    "simulated_annealing" => SimulatedAnnealing.method(:simulated_annealing),
+    "genetic_algorithm" => GeneticAlgorithm.method(:genetic_algorithm)
   }.freeze
 
   module_function

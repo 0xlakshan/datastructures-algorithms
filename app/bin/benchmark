@@ -81,22 +81,16 @@ class BenchmarkCLI
     data = DatasetLoader.load(@file)
     json_data = JSON.generate(data)
     is_searching = @algorithm.include?("search")
+    is_ai = @algorithm == "k_means" || @algorithm == "simulated_annealing" || @algorithm == "genetic_algorithm"
 
-    if is_searching
-      cmd = "node -e \""
-      cmd += "const { #{@algorithm} } = require('./js/lib/algorithms/searching');"
-      cmd += "const { runBenchmark } = require('./js/lib/core/benchmark_runner');"
-      cmd += "const data = #{json_data};"
-      cmd += "runBenchmark('#{@algorithm}', data, #{@target});"
-      cmd += "\""
-    else
-      cmd = "node -e \""
-      cmd += "const { #{@algorithm} } = require('./js/lib/algorithms/sorting');"
-      cmd += "const { runBenchmark } = require('./js/lib/core/benchmark_runner');"
-      cmd += "const data = #{json_data};"
-      cmd += "runBenchmark('#{@algorithm}', data);"
-      cmd += "\""
-    end
+    algo_require = is_searching ? "searching" : (is_ai ? @algorithm : "sorting")
+
+    cmd = "node -e \""
+    cmd += "const { #{@algorithm} } = require('./js/lib/algorithms/#{algo_require}');"
+    cmd += "const { runBenchmark } = require('./js/lib/core/benchmark_runner');"
+    cmd += "const data = #{json_data};"
+    cmd += is_searching ? "runBenchmark('#{@algorithm}', data, #{@target});" : "runBenchmark('#{@algorithm}', data);"
+    cmd += "\""
 
     stdout, stderr, status = Open3.capture3(cmd)
     raise "JS Error: #{stderr}" unless status.success?

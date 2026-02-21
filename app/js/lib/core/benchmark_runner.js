@@ -1,23 +1,17 @@
-const { getAlgorithm } = require('./algorithm_registry');
+const { memoryUsage } = process;
 
-function runBenchmark(algorithmName, data, target = null) {
-  const algorithm = getAlgorithm(algorithmName);
+function runBenchmark(algorithm, data, ...args) {
+  const start = Date.now();
+  const result = algorithm(data, ...args);
+  const end = Date.now();
 
-  const startTime = process.hrtime.bigint();
-  const result = target ? algorithm(data, target) : algorithm(data);
-  const endTime = process.hrtime.bigint();
-
-  const timeSeconds = Number(endTime - startTime) / 1e9;
-
-  const output = {
-    algorithm: algorithmName,
+  return {
+    algorithm: algorithm.name,
     dataset_size: data.length,
     result: result,
-    time_seconds: timeSeconds
+    time_seconds: (end - start) / 1000,
+    memory_mb: (memoryUsage().heapUsed / 1024 / 1024)
   };
-
-  console.log(JSON.stringify(output));
-  return output;
 }
 
 module.exports = { runBenchmark };
